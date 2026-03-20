@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirigiendo...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen font-sans">
+    <div class="text-center">
+        <div class="mb-4 text-blue-900 font-bold text-xl anim-pulse">Verificando credenciales...</div>
+        <p class="text-slate-500 text-sm">Si no eres redirigido, <a href="login.html" class="text-blue-600 underline">haz clic aquí para iniciar sesión</a>.</p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        async function checkAuth() {
+            try {
+                const isAuthenticated = await window.auth.checkSession();
+                if (isAuthenticated) {
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (e) {
+                console.error("Error de redirección:", e);
+                window.location.href = 'login.html';
+            }
+        }
+        
+        checkAuth();
+    </script>
+</body>
+</html>

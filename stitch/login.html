@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Editorial Finance | Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#00346f", "surface": "#f8f9fa" },
+                    fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
+                    borderRadius: {"xl": "0.5rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-gray-900 antialiased flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-primary tracking-tighter mb-2">Ledger Intelligence</h1>
+            <p class="text-gray-500 text-sm uppercase tracking-widest font-medium">Acceso Ejecutivo</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-1" for="email">Correo Institucional</label>
+                <input class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm focus:ring-primary h-12" id="email" name="email" placeholder="correo@editorial.com" required type="email"/>
+            </div>
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-1" for="password">Contraseña de Seguridad</label>
+                <input class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm focus:ring-primary h-12" id="password" name="password" placeholder="••••••••" required type="password"/>
+            </div>
+            <div id="errorMessage" class="hidden text-red-600 text-xs p-3 bg-red-50 rounded-md border border-red-200 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">error</span>
+                <span id="errorText">Credenciales inválidas</span>
+            </div>
+            <button class="w-full bg-primary text-white py-4 rounded-xl font-bold text-sm tracking-tight shadow-lg shadow-primary/20 transition-all hover:opacity-90 active:scale-[0.98]" type="submit">
+                Autorizar Acceso
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t text-center">
+            <p class="text-xs text-gray-400 font-medium uppercase tracking-widest mb-4">¿Es su Despliegue Inicial?</p>
+            <button class="text-primary font-bold text-sm hover:underline" onclick="window.location.href='register.html'">Registrar Workspace</button>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            try {
+                await window.auth.login(email, password);
+                window.location.href = 'index.html';
+            } catch (error) {
+                document.getElementById('errorMessage').classList.remove('hidden');
+                document.getElementById('errorText').textContent = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

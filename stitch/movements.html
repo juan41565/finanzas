@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Editorial Finance | Movements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+    <aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 font-manrope text-sm font-medium flex flex-col p-4 space-y-2 z-50">
+        <div class="mb-8 px-2 py-4"><h1 class="text-xl font-extrabold tracking-tighter text-blue-900">Ledger Intelligence</h1></div>
+        <nav class="flex-1 space-y-1">
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+            <a class="bg-white text-blue-900 shadow-sm flex items-center gap-3 px-3 py-2.5 rounded-md" href="movements.html"><span class="material-symbols-outlined">swap_horiz</span><span>Movements</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" href="categories.html"><span class="material-symbols-outlined">category</span><span>Categories</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" href="beneficiaries.html"><span class="material-symbols-outlined">person</span><span>Beneficiaries</span></a>
+        </nav>
+    </aside>
+
+    <main class="ml-64 min-h-screen flex flex-col">
+        <header class="w-full sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b flex justify-between items-center px-6 py-3">
+            <span class="text-lg font-bold text-blue-900">Editorial Finance</span>
+            <div id="currentWorkspace" class="text-sm font-semibold opacity-60">Workspace</div>
+        </header>
+
+        <div class="p-8 max-w-7xl mx-auto w-full space-y-8">
+            <div class="flex justify-between items-end">
+                <div><h2 class="text-3xl font-extrabold text-blue-900 tracking-tight">Movements Ledger</h2><p class="text-gray-500 text-sm mt-1">Detailed history of financial transactions.</p></div>
+                <button id="addMovementBtn" class="bg-blue-900 text-white px-6 py-3 rounded-md font-semibold text-sm shadow-md">+ New Movement</button>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead><tr class="bg-gray-50 border-b"><th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400">Date</th><th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400">Description</th><th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400">Category</th><th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 text-right">Amount</th><th class="px-6 py-4 w-10"></th></tr></thead>
+                    <tbody id="movementsBody" class="divide-y"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="movementModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center hidden">
+            <div class="bg-white w-full max-w-lg rounded-xl p-8 border">
+                <h3 class="text-2xl font-extrabold text-blue-900 mb-6">Record Transaction</h3>
+                <form id="movementForm" class="grid grid-cols-2 gap-4">
+                    <div class="col-span-1"><label class="text-[10px] font-bold uppercase text-gray-400">Date</label><input name="fecha" type="date" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm" required/></div>
+                    <div class="col-span-1"><label class="text-[10px] font-bold uppercase text-gray-400">Type</label><select name="tipo" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm"><option value="GASTO">Expense</option><option value="INGRESO">Income</option></select></div>
+                    <div class="col-span-2"><label class="text-[10px] font-bold uppercase text-gray-400">Description</label><input name="descripcion" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm" required/></div>
+                    <div class="col-span-1"><label class="text-[10px] font-bold uppercase text-gray-400">Category</label><select name="categoriaId" id="categorySelect" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm" required></select></div>
+                    <div class="col-span-1"><label class="text-[10px] font-bold uppercase text-gray-400">Amount ($)</label><input name="monto" type="number" step="0.01" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm text-right font-bold" required/></div>
+                    <div class="col-span-2 pt-4 flex gap-3"><button type="button" id="closeMovementModal" class="flex-1 py-3 bg-gray-100 rounded-md font-bold text-sm">Cancel</button><button type="submit" class="flex-1 py-3 bg-blue-900 text-white rounded-md font-bold text-sm shadow-md">Confirm</button></div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/movements.js"></script>
+</body>
+</html>
