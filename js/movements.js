@@ -54,22 +54,62 @@ async function initMovements() {
                     return;
                 }
                 data.tarjetaCreditoId = parseInt(cardId);
+                data.tarjeta_credito_id = data.tarjetaCreditoId;
                 data.cuentaId = null;
+                data.cuenta_id = null;
             } else {
                 const accountId = accountSelect.value;
-                console.log('Valor detectado en selector de cuenta:', accountId);
+                console.log('--- DIAGNÓSTICO SELECT ---');
+                console.log('Elemento:', accountSelect);
+                console.log('Valor bruto .value:', accountId);
+                console.log('Cantidad opciones:', accountSelect.options.length);
+                console.log('Índice seleccionado:', accountSelect.selectedIndex);
+                
                 if (!accountId && accountId !== "0") {
                     alert('Por favor seleccione una cuenta de origen/destino.');
                     return;
                 }
                 data.cuentaId = parseInt(accountId);
+                data.cuenta_id = data.cuentaId;
                 data.tarjetaCreditoId = null;
+                data.tarjeta_credito_id = null;
             }
+            
+            // Compatibilidad total (Asegurar que NADA se escape)
+            const finalData = {
+                workspaceId: data.workspaceId,
+                workspace_id: data.workspaceId,
+                tipo: data.tipo,
+                categoriaId: data.categoriaId,
+                categoria_id: data.categoriaId,
+                categoria: { id: data.categoriaId },
+                beneficiarioId: data.beneficiarioId || null,
+                beneficiario_id: data.beneficiarioId || null,
+                beneficiario: data.beneficiarioId ? { id: data.beneficiarioId } : null,
+                fecha: data.fecha,
+                monto: data.monto,
+                descripcion: data.descripcion,
+                medioPago: data.medioPago,
+                medio_pago: data.medioPago,
+                
+                // Estos son los campos críticos
+                cuentaId: data.cuentaId,
+                cuenta_id: data.cuentaId,
+                cuenta: data.cuentaId !== null ? { id: data.cuentaId } : null,
+                
+                tarjetaCreditoId: data.tarjetaCreditoId,
+                tarjeta_credito_id: data.tarjetaCreditoId,
+                tarjetaCredito: data.tarjetaCreditoId !== null ? { id: data.tarjetaCreditoId } : null,
+                
+                itemPresupuestoId: null,
+                item_presupuesto_id: null
+            };
 
-            console.log('Datos listos para enviar:', JSON.stringify(data, null, 2));
+            console.log('>> ENVIANDO OBJETO FINAL (RELACIONES):', finalData);
+            console.table(finalData);
 
             try {
-                await window.api.transactions.create(data);
+                await window.api.transactions.create(finalData);
                 modal.classList.add('hidden');
                 e.target.reset();
                 loadMovements(workspaceId);
