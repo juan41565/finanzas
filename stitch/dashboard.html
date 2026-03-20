@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="light" lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -12,7 +12,7 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: { "primary": "#00346f", "secondary": "#006c47", "error": "#ba1a1a", "surface": "#f8f9fa", "on-surface": "#191c1d", "outline": "#737783", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f4f5", "outline-variant": "#c2c6d3" },
+                    colors: { "primary": "#00346f", "secondary": "#006c47", "error": "#ba1a1a", "surface": "#f8f9fa" },
                     fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
                     borderRadius: {"xl": "0.5rem"},
                 },
@@ -20,31 +20,19 @@
         }
     </script>
 </head>
-<body class="bg-surface text-on-surface antialiased">
-    <aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 font-manrope text-sm font-medium flex flex-col p-4 space-y-2 z-50">
-        <div class="mb-8 px-2 py-4">
-            <h1 class="text-xl font-extrabold tracking-tighter text-blue-900">Ledger Intelligence</h1>
-        </div>
+<body class="bg-surface text-gray-900 antialiased">
+    <aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 font-manrope text-sm font-medium flex flex-col p-4 space-y-2 z-50">
+        <div class="mb-8 px-2 py-4"><h1 class="text-xl font-extrabold tracking-tighter text-blue-900">Ledger Intelligence</h1></div>
         <nav class="flex-1 space-y-1">
-            <a class="bg-white text-blue-900 shadow-sm flex items-center gap-3 px-3 py-2.5 rounded-md" href="dashboard.html">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span>Dashboard</span>
-            </a>
-            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" href="movements.html">
-                <span class="material-symbols-outlined">swap_horiz</span>
-                <span>Movements</span>
-            </a>
-            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" href="categories.html">
-                <span class="material-symbols-outlined">category</span>
-                <span>Categories</span>
-            </a>
-            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" href="beneficiaries.html">
-                <span class="material-symbols-outlined">person</span>
-                <span>Beneficiaries</span>
-            </a>
+            <a class="bg-white text-blue-900 shadow-sm flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-dashboard" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-accounts" href="accounts.html"><span class="material-symbols-outlined">account_balance</span><span>Cuentas</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-cards" href="cards.html"><span class="material-symbols-outlined">credit_card</span><span>Tarjetas</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-movements" href="movements.html"><span class="material-symbols-outlined">swap_horiz</span><span>Movimientos</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-categories" href="categories.html"><span class="material-symbols-outlined">category</span><span>Categorías</span></a>
+            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-beneficiaries" href="beneficiaries.html"><span class="material-symbols-outlined">person</span><span>Beneficiarios</span></a>
         </nav>
-        <button id="logoutBtn" class="w-full bg-slate-200 text-on-surface py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 mt-auto">
-            <span class="material-symbols-outlined text-sm">logout</span> Sign Out
+        <button id="logoutBtn" class="w-full bg-slate-200 text-gray-900 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 mt-auto">
+            <span class="material-symbols-outlined text-sm">logout</span> Cerrar Sesión
         </button>
     </aside>
 
@@ -53,8 +41,8 @@
             <span class="text-lg font-bold text-blue-900">Editorial Finance</span>
             <div class="flex items-center gap-4">
                 <div class="text-right">
-                    <p class="text-xs font-bold text-primary" id="userName">User Name</p>
-                    <p class="text-[10px] text-outline uppercase tracking-widest" id="currentWorkspaceName">Workspace</p>
+                    <p class="text-xs font-bold text-primary" id="userName">Usuario</p>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest" id="currentWorkspaceName">Workspace</p>
                 </div>
             </div>
         </header>
@@ -62,28 +50,29 @@
         <div class="p-8 max-w-7xl mx-auto w-full space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl border shadow-sm">
-                    <span class="text-xs font-bold uppercase tracking-widest text-outline">Total Balance</span>
-                    <div class="text-4xl font-extrabold text-primary tracking-tighter" id="netBalance">$0.00</div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Balance Total</span>
+                    <div class="text-4xl font-extrabold text-primary tracking-tighter" id="netBalance">$0</div>
                 </div>
                 <div class="bg-white p-6 rounded-xl border shadow-sm">
-                    <span class="text-xs font-bold uppercase tracking-widest text-outline">Monthly Income</span>
-                    <div class="text-4xl font-extrabold text-on-surface tracking-tighter" id="totalIncome">$0.00</div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Ingresos Mensuales</span>
+                    <div class="text-4xl font-extrabold text-green-700 tracking-tighter" id="totalIncome">$0</div>
                 </div>
                 <div class="bg-white p-6 rounded-xl border shadow-sm">
-                    <span class="text-xs font-bold uppercase tracking-widest text-outline">Expenses</span>
-                    <div class="text-4xl font-extrabold text-on-surface tracking-tighter" id="totalExpenses">$0.00</div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Gastos Mensuales</span>
+                    <div class="text-4xl font-extrabold text-red-700 tracking-tighter" id="totalExpenses">$0</div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2 bg-white rounded-xl p-6 border shadow-sm min-h-[400px]">
-                    <h3 class="font-bold text-lg text-primary mb-8">Performance Analytics</h3>
-                    <div class="h-[300px]">
-                        <canvas id="balanceChart"></canvas>
-                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-8">Análisis de Desempeño</h3>
+                    <div class="h-[300px]"><canvas id="balanceChart"></canvas></div>
                 </div>
                 <div class="bg-white rounded-xl p-6 border shadow-sm">
-                    <h3 class="font-bold text-lg text-primary mb-6">Recent Activity</h3>
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-lg text-primary">Actividad Reciente</h3>
+                        <a href="movements.html" class="text-xs font-bold text-blue-800 hover:underline">Ver Todo</a>
+                    </div>
                     <div class="space-y-4" id="recentTransactions"></div>
                 </div>
             </div>
@@ -98,9 +87,7 @@
     <script>
         document.getElementById('logoutBtn').addEventListener('click', () => window.auth.logout());
         const user = window.auth.getCurrentUser();
-        if (user) {
-            document.getElementById('userName').textContent = user.nombre;
-        }
+        if (user) document.getElementById('userName').textContent = user.nombre;
         document.getElementById('currentWorkspaceName').textContent = localStorage.getItem('workspaceName') || 'Workspace';
     </script>
 </body>

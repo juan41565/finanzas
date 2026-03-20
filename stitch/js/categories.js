@@ -43,7 +43,9 @@ async function loadCategories(workspaceId) {
         if (incomeDiv) incomeDiv.innerHTML = '';
         if (expenseDiv) expenseDiv.innerHTML = '';
 
-        response.data.forEach(cat => {
+        const dataArray = Array.isArray(response.data) ? response.data : (response.data.data || []);
+        
+        dataArray.forEach(cat => {
             const card = document.createElement('div');
             card.className = 'bg-white p-6 rounded-xl border border-outline-variant/10 shadow-sm flex justify-between items-center';
             card.innerHTML = `

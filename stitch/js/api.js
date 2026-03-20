@@ -84,5 +84,21 @@ window.api = {
             method: 'POST',
             body: JSON.stringify(beneficiary),
         }),
+    },
+    
+    accounts: {
+        list: (workspaceId) => window.api.request(`/api/cuentas?workspaceId=${workspaceId}`),
+        create: (account) => window.api.request('/api/cuentas', {
+            method: 'POST',
+            body: JSON.stringify(account),
+        }),
+    },
+    
+    creditCards: {
+        list: (workspaceId) => window.api.request(`/api/tarjetas-credito?workspaceId=${workspaceId}`),
+        create: (card) => window.api.request('/api/tarjetas-credito', {
+            method: 'POST',
+            body: JSON.stringify(card),
+        }),
     }
 };

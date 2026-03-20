@@ -27,25 +27,27 @@ async function initDashboard() {
             
             transactionsResponse.data.slice(0, 5).forEach(tx => {
                 const isExpense = tx.tipo === 'GASTO';
-                const color = isExpense ? 'error' : 'secondary';
+                const color = isExpense ? 'red' : 'green';
                 const icon = isExpense ? 'receipt_long' : 'payments';
                 
                 const item = document.createElement('div');
-                item.className = 'flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors';
+                item.className = 'flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors';
                 item.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-${color}/10 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-${color} text-xl">${icon}</span>
+                        <div class="w-10 h-10 rounded-full bg-${color}-50 flex items-center justify-center text-${color}-700">
+                            <span class="material-symbols-outlined text-xl">${icon}</span>
                         </div>
                         <div>
-                            <p class="text-sm font-semibold text-on-surface">${tx.descripcion}</p>
-                            <p class="text-[10px] text-outline font-medium">${window.utils.formatDate(tx.fecha)} • ${tx.categoriaNombre}</p>
+                            <p class="text-sm font-semibold text-gray-900">${tx.descripcion}</p>
+                            <p class="text-[10px] text-gray-400 font-medium">${window.utils.formatDate(tx.fecha)} • ${tx.categoriaNombre}</p>
                         </div>
                     </div>
-                    <div class="text-sm font-bold text-${color}">${isExpense ? '-' : '+'}${window.utils.formatCurrency(tx.monto)}</div>
+                    <div class="text-sm font-bold text-${color}-700">${isExpense ? '-' : '+'}${window.utils.formatCurrency(tx.monto)}</div>
                 `;
                 list.appendChild(item);
             });
+        } else {
+            document.getElementById('recentTransactions').innerHTML = '<p class="text-center text-gray-400 text-xs italic py-8">No hay actividad reciente.</p>';
         }
 
         initChart(workspaceId, anio);
@@ -59,7 +61,7 @@ async function initChart(workspaceId, anio) {
     try {
         const cashFlowResponse = await window.api.dashboard.getYearlyCashFlow(workspaceId, anio);
         const ctx = document.getElementById('balanceChart').getContext('2d');
-        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
         const incomes = new Array(12).fill(0);
         const expenses = new Array(12).fill(0);
 
@@ -76,17 +78,17 @@ async function initChart(workspaceId, anio) {
             data: {
                 labels: labels,
                 datasets: [
-                    { label: 'Income', data: incomes, backgroundColor: '#00346f', borderRadius: 4 },
-                    { label: 'Expenses', data: expenses, backgroundColor: '#71dba6', borderRadius: 4 }
+                    { label: 'Ingresos', data: incomes, backgroundColor: '#00346f', borderRadius: 4 },
+                    { label: 'Gastos', data: expenses, backgroundColor: '#71dba6', borderRadius: 4 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 10, font: { family: 'Manrope', size: 10 } } } },
                 scales: {
-                    y: { beginAtZero: true, grid: { display: false }, ticks: { callback: v => window.utils.formatCurrency(v).replace('.00', '') } },
-                    x: { grid: { display: false } }
+                    y: { beginAtZero: true, grid: { display: false }, ticks: { font: { size: 10 }, callback: v => window.utils.formatCurrency(v).replace(',00', '') } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
                 }
             }
         });

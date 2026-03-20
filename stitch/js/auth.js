@@ -18,7 +18,7 @@ window.auth = {
                 return response.data;
             }
         } catch (error) {
-            console.error('Login error:', error);
+            console.error('Error de login:', error);
             throw error;
         }
     },

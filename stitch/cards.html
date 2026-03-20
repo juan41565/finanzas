@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Editorial Finance | Categorías</title>
+    <title>Editorial Finance | Tarjetas</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -14,7 +14,7 @@
         <nav class="flex-1 space-y-1">
             <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-dashboard" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
             <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-accounts" href="accounts.html"><span class="material-symbols-outlined">account_balance</span><span>Cuentas</span></a>
-            <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-cards" href="cards.html"><span class="material-symbols-outlined">credit_card</span><span>Tarjetas</span></a>
+            <a class="bg-white text-blue-900 shadow-sm flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-cards" href="cards.html"><span class="material-symbols-outlined">credit_card</span><span>Tarjetas</span></a>
             <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-movements" href="movements.html"><span class="material-symbols-outlined">swap_horiz</span><span>Movimientos</span></a>
             <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-categories" href="categories.html"><span class="material-symbols-outlined">category</span><span>Categorías</span></a>
             <a class="text-slate-500 hover:bg-slate-200 flex items-center gap-3 px-3 py-2.5 rounded-md" id="nav-beneficiaries" href="beneficiaries.html"><span class="material-symbols-outlined">person</span><span>Beneficiarios</span></a>
@@ -29,20 +29,23 @@
 
         <div class="p-8 max-w-7xl mx-auto w-full">
             <div class="flex justify-between items-end mb-10">
-                <div><h2 class="text-3xl font-extrabold text-blue-900 tracking-tight">Categorías Financieras</h2><p class="text-gray-500 text-sm mt-1">Gestione su sistema de clasificación.</p></div>
-                <button id="addCategoryBtn" class="bg-green-700 text-white px-6 py-3 rounded-md font-semibold text-sm shadow-md">+ Nueva Categoría</button>
+                <div><h2 class="text-3xl font-extrabold text-blue-900 tracking-tight">Tarjetas de Crédito</h2><p class="text-gray-500 text-sm mt-1">Administre sus líneas de crédito institucionales.</p></div>
+                <button id="addCardBtn" class="bg-slate-900 text-white px-6 py-3 rounded-md font-semibold text-sm shadow-md">+ Nueva Tarjeta</button>
             </div>
-            <section class="mb-12"><h3 class="font-bold text-lg text-green-700 mb-6 flex items-center gap-2"><span class="w-2 h-2 bg-green-700 rounded-full"></span> Categorías de Ingreso</h3><div id="incomeCategories" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div></section>
-            <section><h3 class="font-bold text-lg text-red-700 mb-6 flex items-center gap-2"><span class="w-2 h-2 bg-red-700 rounded-full"></span> Categorías de Gasto</h3><div id="expenseCategories" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div></section>
+            <div id="cardsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"></div>
         </div>
 
-        <div id="categoryModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center hidden">
+        <div id="cardModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center hidden">
             <div class="bg-white w-full max-w-md rounded-xl p-8 border">
-                <h3 class="text-2xl font-extrabold text-blue-900 mb-6">Nueva Categoría</h3>
-                <form id="categoryForm" class="space-y-4">
-                    <div><label class="text-[10px] font-bold uppercase text-gray-400">Nombre</label><input name="nombre" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm" required/></div>
-                    <div><label class="text-[10px] font-bold uppercase text-gray-400">Tipo</label><select name="tipo" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm"><option value="INGRESO">Ingreso</option><option value="GASTO" selected>Gasto</option></select></div>
-                    <div class="pt-4 flex gap-3"><button type="button" id="closeModal" class="flex-1 py-3 bg-gray-100 rounded-md font-bold text-sm">Cancelar</button><button type="submit" class="flex-1 py-3 bg-blue-900 text-white rounded-md font-bold text-sm">Guardar</button></div>
+                <h3 class="text-2xl font-extrabold text-blue-900 mb-6">Vincular Tarjeta</h3>
+                <form id="cardForm" class="space-y-4">
+                    <div><label class="text-[10px] font-bold uppercase text-gray-400">Nombre de la Tarjeta</label><input name="nombre" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm" placeholder="Ej: Visa Black Corporate" required/></div>
+                    <div><label class="text-[10px] font-bold uppercase text-gray-400">Número (Últimos 4 dígitos)</label><input name="numero" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm" placeholder="0000" maxlength="4" required/></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="text-[10px] font-bold uppercase text-gray-400">Cupo Total</label><input name="cupoTotal" type="number" step="0.01" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm font-bold text-right" value="1000000" required/></div>
+                        <div><label class="text-[10px] font-bold uppercase text-gray-400">Día de Corte</label><input name="diaCorte" type="number" min="1" max="31" class="w-full bg-gray-50 border rounded-md py-3 px-4 text-sm font-bold text-right" value="15" required/></div>
+                    </div>
+                    <div class="pt-4 flex gap-3"><button type="button" id="closeCardModal" class="flex-1 py-3 bg-gray-100 rounded-md font-bold text-sm">Cancelar</button><button type="submit" class="flex-1 py-3 bg-blue-900 text-white rounded-md font-bold text-sm">Vincular</button></div>
                 </form>
             </div>
         </div>
@@ -50,6 +53,7 @@
 
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/categories.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cards.js"></script>
 </body>
 </html>
