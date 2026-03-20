@@ -15,10 +15,7 @@ async function initCards() {
         data.cupoTotal = parseFloat(data.cupoTotal);
         data.diaCorte = parseInt(data.diaCorte);
         try {
-            await window.api.request('/api/tarjetas-credito', {
-                method: 'POST',
-                body: JSON.stringify(data)
-            });
+            await window.api.creditCards.create(data);
             modal.classList.add('hidden');
             e.target.reset();
             loadCards(workspaceId);

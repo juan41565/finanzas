@@ -75,38 +75,41 @@ async function initMovements() {
                 data.tarjeta_credito_id = null;
             }
             
-            // Compatibilidad total (Asegurar que NADA se escape)
+            // COMPATIBILIDAD CRÍTICA Y CORRECCIÓN DE SWAP
+            // El servidor invierte Categoria (29) y Beneficiario (11).
+            // Para compensar, enviamos el ID de Categoria en beneficiarioId y viceversa.
             const finalData = {
                 workspaceId: data.workspaceId,
-                workspace_id: data.workspaceId,
                 tipo: data.tipo,
-                categoriaId: data.categoriaId,
-                categoria_id: data.categoriaId,
-                categoria: { id: data.categoriaId },
-                beneficiarioId: data.beneficiarioId || null,
-                beneficiario_id: data.beneficiarioId || null,
-                beneficiario: data.beneficiarioId ? { id: data.beneficiarioId } : null,
+                
+                // SWAP COMPENSATORIO
+                categoriaId: data.beneficiarioId || null,
+                beneficiarioId: data.categoriaId,
+                
                 fecha: data.fecha,
                 monto: data.monto,
                 descripcion: data.descripcion,
                 medioPago: data.medioPago,
-                medio_pago: data.medioPago,
                 
-                // Estos son los campos críticos
+                // FUENTE DE PAGO (Multi-formato para forzar detección)
                 cuentaId: data.cuentaId,
                 cuenta_id: data.cuentaId,
-                cuenta: data.cuentaId !== null ? { id: data.cuentaId } : null,
+                idCuenta: data.cuentaId,
+                id_cuenta: data.cuentaId,
+                cuenta: data.cuentaId ? { id: data.cuentaId } : null,
                 
                 tarjetaCreditoId: data.tarjetaCreditoId,
                 tarjeta_credito_id: data.tarjetaCreditoId,
-                tarjetaCredito: data.tarjetaCreditoId !== null ? { id: data.tarjetaCreditoId } : null,
+                idTarjetaCredito: data.tarjetaCreditoId,
+                id_tarjeta_credito: data.tarjetaCreditoId,
+                tarjetaCredito: data.tarjetaCreditoId ? { id: data.tarjetaCreditoId } : null,
                 
                 itemPresupuestoId: null,
                 item_presupuesto_id: null
             };
 
-            console.log('>> ENVIANDO OBJETO FINAL (RELACIONES):', finalData);
-            console.table(finalData);
+            console.log('--- ENVIANDO A API (VERSIÓN 2.0) ---', new Date().toISOString());
+            console.log('JSON final:', JSON.stringify(finalData, null, 2));
 
             try {
                 await window.api.transactions.create(finalData);

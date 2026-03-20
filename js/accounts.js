@@ -19,10 +19,7 @@ async function initAccounts() {
         if (isNaN(data.saldoInicial)) data.saldoInicial = 0;
         
         try {
-            await window.api.request('/api/cuentas', {
-                method: 'POST',
-                body: JSON.stringify(data)
-            });
+            await window.api.accounts.create(data);
             modal.classList.add('hidden');
             e.target.reset();
             loadAccounts(workspaceId);

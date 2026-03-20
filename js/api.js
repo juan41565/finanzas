@@ -62,7 +62,7 @@ window.api = {
 
     transactions: {
         list: (workspaceId) => window.api.request(`/api/transactions?workspaceId=${workspaceId}`),
-        create: (transaction) => window.api.request('/api/transactions', {
+        create: (transaction) => window.api.request(`/api/transactions?workspaceId=${transaction.workspaceId || localStorage.getItem('workspaceId')}`, {
             method: 'POST',
             body: JSON.stringify(transaction),
         }),
@@ -95,8 +95,8 @@ window.api = {
     },
     
     creditCards: {
-        list: (workspaceId) => window.api.request(`/api/tarjetas-credito?workspaceId=${workspaceId}`),
-        create: (card) => window.api.request('/api/tarjetas-credito', {
+        list: (workspaceId) => window.api.request(`/api/credit-cards?workspaceId=${workspaceId}`),
+        create: (card) => window.api.request('/api/credit-cards', {
             method: 'POST',
             body: JSON.stringify(card),
         }),
